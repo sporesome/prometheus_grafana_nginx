@@ -8,7 +8,9 @@ services:
     networks:
       - net1
     ports:
-      - "8001:80"
+      - "8001:8001"
+    expose:
+      - 8001
     volumes:
       - ./config1/:/etc/nginx/conf.d/
   
@@ -17,27 +19,44 @@ services:
     restart: always
     image: nginx:latest
     networks:
-      - net1
+      - net2
     ports:
-      - "8002:80"
+      - "8002:8002"
     volumes:
       - ./config2/:/etc/nginx/conf.d/   
  
   grafana:
     container_name: grafana
     restart: unless-stopped
-    image: Grafana
+    image: grafana/grafana
+    volumes:
+      - grafana_data:/var/lib/grafana      
     networks:
       - net1
       - net2
     expose:
       - 3000
-
-
+      
+   
+  prometheus:
+    container_name: prometheus
+    restart: always
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus:/etc/prometheus
+      - prometheus_data:/prometheus 
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    networks:
+      - net1
+      - net2  
+  
+volumes:
+    prometheus_data: {}
+    grafana_data: {}
 
 networks:
   net1:
   net2:
-
-
-  
