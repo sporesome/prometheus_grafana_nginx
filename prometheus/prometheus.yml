@@ -11,7 +11,7 @@ alerting:
     static_configs:
     - targets: []
 scrape_configs:
-- job_name: prometheus
+- job_name: Prometheus_nginx_healthcheck
   honor_timestamps: true
   scrape_interval: 15s
   scrape_timeout: 10s
@@ -20,15 +20,4 @@ scrape_configs:
   follow_redirects: true
   static_configs:
   - targets:
-    - localhost:9090
-
- - job_name: less1.6
-  honor_timestamps: true
-  scrape_interval: 15s
-  scrape_timeout: 10s
-  metrics_path: /metrics
-  scheme: http
-  follow_redirects: true
-  static_configs:
-  - targets:
-    - localhost:8001   
+    - nginx1:8001
