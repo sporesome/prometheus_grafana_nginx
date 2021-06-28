@@ -31,8 +31,6 @@ services:
     networks:
       - net1
       - net2
-    ports:
-      - "8002:80"
     expose:
       - 3000
 
