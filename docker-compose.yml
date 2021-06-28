@@ -2,8 +2,8 @@ version: "3"
 
 services:
  
-   Nginx1:
-    container_name: Nginx1
+   nginx1:
+    container_name: nginx1
     restart: always
     image: nginx:latest
     networks:
@@ -13,8 +13,8 @@ services:
     volumes:
       - ./config1/:/etc/nginx/conf.d/
   
-  Nginx2:
-    container_name: Nginx2
+  nginx2:
+    container_name: nginx2
     restart: always
     image: nginx:latest
     networks:
@@ -24,8 +24,8 @@ services:
     volumes:
       - ./config2/:/etc/nginx/conf.d/   
  
-  Grafana:
-    container_name: Grafana
+  grafana:
+    container_name: grafana
     restart: unless-stopped
     image: Grafana
     networks:
