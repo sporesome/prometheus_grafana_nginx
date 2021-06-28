@@ -28,7 +28,7 @@ services:
   grafana:
     container_name: grafana
     restart: unless-stopped
-    image: grafana/grafana
+    image: grafana/grafana:master-ubuntu           
     volumes:
       - grafana_data:/var/lib/grafana      
     networks:
@@ -37,10 +37,10 @@ services:
     expose:
       - 3000
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://nginx1:8001/login"]
-      interval: 10s
-      timeout: 5s
-      retries: 5  
+      test: ["CMD", "curl", "-f", "nginx1:8001"]
+      interval: 3s
+      timeout: 2s
+      retries: 3  
       
    
   
