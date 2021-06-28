@@ -1,0 +1,52 @@
+version: "3"
+
+services:
+  web:
+    container_name: web
+    build:
+      context: django_blog_test/.
+    
+    expose:
+      - 8000
+    volumes:
+      - ./app:/app
+    command: >
+      sh -c "python manage.py migrate && gunicorn Blog.wsgi:application --bind 0.0.0.0:8000"
+    environment:
+      - DB_HOST=db
+      - DB_NAME=postgres
+      - DB_USER=postgres
+      - DB_PASS=postgres
+    restart: always
+    depends_on:
+      - db
+    
+
+  db:
+    container_name: db
+    restart: always
+    image: postgres:13-alpine
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    
+  nginx:
+    container_name: nginx
+    restart: always
+    image: nginx:latest
+    links:   
+      - "web:web"
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./django_blog_test/config/nginx/:/etc/nginx/conf.d/
+
+volumes:
+  pgdata:
+  
+  
